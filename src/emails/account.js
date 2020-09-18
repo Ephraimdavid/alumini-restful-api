@@ -1,7 +1,7 @@
 //SEND AUTOMATED EMAIL FROM THIS APP
 const sgMail = require('@sendgrid/mail')
 
-sgMail.setApiKey('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')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const sendWelcomeMail = (name, email) => {
     sgMail.send({

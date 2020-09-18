@@ -8,7 +8,7 @@ const auth = async (req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ', '')
 
     //check and verify if the user-request token was created by our server and hasn't expired
-    const decoded = jwt.verify(token, 'thisismeforreal')
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     // find a user by ID and check if they still have the verified token in the tokens array
     // if they do, we allow them to intiate a process

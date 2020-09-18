@@ -8,7 +8,7 @@ OBJECTIVES: SPREAD THE NEWS OF FREEDOM AND EMANCIPATION!
 */
 const mongoose = require('mongoose')
    
-     mongoose.connect('mongodb://127.0.0.1:27017/africa-api', //CONNECT TO DATABASE
+     mongoose.connect(process.env.MONGODB_URL, //CONNECT TO DATABASE
 
       { 
         useNewUrlParser: true, 
