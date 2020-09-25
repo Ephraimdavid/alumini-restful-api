@@ -19,14 +19,17 @@ const upload = multer({
     }
 })
 
-
+// method - POST
+// content-type - application/json
+// route - /users/user-comment
+//here we allow the user comment on individual post
+// honestly i don't know if i correctly created a relationship betwwen the comment
+// and the post to comment on @ ../models/user: line 90
 // create a User comment with images - POST http method
-router.post('/users/user-comment', auth, upload.single('upload'), async (req, res) => {
-const buffer = await sharp(req.file.buffer).resize({width: 350, height: 450}).png().toBuffer()
-    const userComment = new UserComment({
+router.post('/users/user-comment', auth, async (req, res) => {
+  const userComment = new UserComment({
         ...req.body,
-        ownerId: req.user._id,
-        commentPic: buffer
+        ownerId: req.user._id
     })
    
     try {
@@ -38,7 +41,36 @@ const buffer = await sharp(req.file.buffer).resize({width: 350, height: 450}).pn
     }
 })
 
+// method - POST
+// content-type - form-data
+// route - /users/user-comment/pic
+// here the user comments with a picture if need be...nothing is coming back, 
+// we are just sending to database
+//user comment' with pic' route
+router.post('/users/user-comment/pic', auth, upload.single('commentPic'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
 
+    const userComment = await UserComment({
+        ownerId: req.user._id,
+        commentPicture: buffer
+    })
+
+     try {
+         
+        await userComment.save()
+        res.send()
+
+    } catch (e) {
+    res.status(500).send(e.message)
+    
+    }
+})
+
+
+// method - GET 
+// content/type - form-data
+// route - /users/user-comment/:id
+// here we serve the image the user provided in the comment
 //serve up comment image - use ur browser to test this route
 router.get('/users/user-comment/:id', async (req, res) => {
 
@@ -46,12 +78,12 @@ router.get('/users/user-comment/:id', async (req, res) => {
 
         const usercoment = await UserComment.findOne({_id: req.params.id})
 
-        if (!usercoment || !usercoment.commentPic) {
+        if (!usercoment || !usercoment.commentPicture) {
             throw new Error('no picture here')
         }
 
         res.set('Content-Type', 'image/png')
-        res.send(usercoment.commentPic)
+        res.send(usercoment.commentPicture)
 
     } catch (e) {
         res.status(404).send(e.message)
@@ -59,7 +91,10 @@ router.get('/users/user-comment/:id', async (req, res) => {
 
 })
 
-
+// method - GET
+// content-type - application/json
+// route - /users/comment
+// here we render all the comment associated with the vaious post in our DB
 //read users comment - GET http method
 router.get('/users-comment', async (req, res) => {
 
@@ -77,6 +112,10 @@ router.get('/users-comment', async (req, res) => {
 })
 
 
+// method - GET
+// content-type - application/json
+// route - /user-coomment/:id
+// here we identify who wrote which comment
 //read a user comment by Id - GET http method
 router.get('/user-comment/:id', auth, async (req, res ) => {
     const _id = req.params.id
@@ -95,7 +134,10 @@ router.get('/user-comment/:id', auth, async (req, res ) => {
 
 })
 
-
+// method - PATCH
+// content-type - application/json
+// route - /user-comment/:id
+// here we allow the user edit their individual comment
 //update a user comment by Id - PATCH http method
 router.patch('/user-comment/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
@@ -122,6 +164,10 @@ router.patch('/user-comment/:id', auth, async (req, res) => {
     }
 })
 
+// method - DELETE
+// content-type - application/json
+// route - /user-comment/:id
+// here we allow the user delete the comment they wrote
 
 router.delete('/user-comment/:id', auth, async (req, res) => {
         try {

@@ -3,7 +3,7 @@
                                  UNIX-EPOCH      
             land of the rising sun!  ...for the love of a Nation!
 
-SOCIAL MEDIA REST API FOR AFRICA
+SOCIAL MEDIA REST API
 OBJECTIVES: SPREAD THE NEWS OF FREEDOM AND EMANCIPATION!
 */
 const mongoose = require('mongoose')

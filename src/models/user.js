@@ -7,23 +7,10 @@ const UserComment = require('./usercomment')
 
 const userSchema = new mongoose.Schema({
     // perform some validation and sanitization
-       firstName: {
-           type: String,
-           required: true,
-           lowercase: true,
-           trim: true
-       },
-       middleName: {
-           type: String,
-           required: true,
-           lowercase: true,
-           trim: true
-       },
-       lastName: {
-           type: String,
-           required: true,
-           lowercase: true,
-           trim: true
+       fullName: {
+           firstName: String,
+           middleName: String,
+           lastName: String
        },
        userName: {
            type: String,
@@ -40,7 +27,7 @@ const userSchema = new mongoose.Schema({
         country: String,
         state: String,
         street: String,
-        postalCode: String
+        postalCode: Number
     }, 
     bio: {
         highSchool: String,
@@ -53,8 +40,8 @@ const userSchema = new mongoose.Schema({
            unique: true
        },
        dateOfBirth: {
-           type: Date,
-           required: true,
+        type: Date,
+        required: true,
        },
        email: {
            type: String,

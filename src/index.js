@@ -24,7 +24,7 @@ const port = process.env.PORT
 app.use(express.json())
 
 
-//register various routes to Express
+//register various route handeler to Express
 app.use(userRouter)
 app.use(userRoleRouter)
 app.use(userCommentRouter)
