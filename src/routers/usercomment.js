@@ -9,13 +9,13 @@ const router = new express.Router()
 // restrict picture upload in comments
 const upload = multer({
     limits: {
-        fileSize: 1000000
+        fileSize: 1500000
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpeg|png|jpg)$/)) {
             return cb(new Error('please upload an image!'))
         }
-        cb(undefined, true)
+        cd(undefined, true)
     }
 })
 

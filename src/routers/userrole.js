@@ -12,14 +12,14 @@ const router = new express.Router()
 //restrict image upload in user post
 const postPic = multer({
     limits: {
-        fileSize: 1000000
+        fileSize: 1500000
     },
     fileFilter(req, file, cb) {
         if(!file.originalname.match(/\.(jpeg|png|jpg)$/)) {
             return cb(new Error('you must upload an image'))
         }
 
-        cb(undefined, true)
+       cd(undefined, true)
     }
 })
 
